@@ -4,6 +4,7 @@ import { HomePage } from "../pages/HomePage";
 
 
 import {  HOME  } from "./paths";
+import { MainLayout } from "../layouts/MainLayout";
 
 
 
@@ -11,7 +12,10 @@ export function Router() {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path={HOME} element={<HomePage />} />
+                <Route element={<MainLayout/>}>
+                  <Route path={HOME} element={<HomePage />} />
+
+                </Route>
 
 
                 {/* <Route path={PRIVATE} element={
