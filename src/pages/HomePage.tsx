@@ -1,10 +1,16 @@
-
+import { useState } from 'react';
 import VerticalTabs from '../components/verticalTabs/VerticalTabs';
+
+import { APIGenreContext, genreContext } from '../context/genreContext';
 
 let genres = ["fiction", "science", "sports", "thriller"]
 
 export const HomePage = () => {
-  // const { apiBooks, apiError } = apiContext()
+
+
+
+  const { apiGenres, apiError } = genreContext()
+  console.log("home getAllGenres ",apiGenres)
 
 
   // const { cartItems } = bookContext()
@@ -18,7 +24,7 @@ export const HomePage = () => {
 
   return (
     <>
-      <VerticalTabs genres={genres}/>
+      <VerticalTabs genres={apiGenres}/>
     </>
   )
 }

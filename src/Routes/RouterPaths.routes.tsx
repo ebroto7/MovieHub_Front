@@ -3,27 +3,30 @@ import { BrowserRouter, Routes, Route } from "react-router-dom"
 import { HomePage } from "../pages/HomePage";
 
 
-import {  HOME  } from "./paths";
+import { HOME } from "./paths";
 import { MainLayout } from "../layouts/MainLayout";
+import { APIGenreProvider } from "../context/genreContext";
 
 
 
 export function Router() {
     return (
-        <BrowserRouter>
-            <Routes>
-                <Route element={<MainLayout/>}>
-                  <Route path={HOME} element={<HomePage />} />
+        <APIGenreProvider>
+            <BrowserRouter>
+                <Routes>
+                    <Route element={<MainLayout />}>
+                        <Route path={HOME} element={<HomePage />} />
 
-                </Route>
+                    </Route>
 
 
-                {/* <Route path={PRIVATE} element={
+                    {/* <Route path={PRIVATE} element={
                     <PrivateRoutes>
                         <CheckoutPage />
                     </PrivateRoutes>
                 } /> */}
-            </Routes>
-        </BrowserRouter>
+                </Routes>
+            </BrowserRouter>
+        </APIGenreProvider>
     )
 }
