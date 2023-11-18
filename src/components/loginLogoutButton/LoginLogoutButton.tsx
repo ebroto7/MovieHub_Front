@@ -23,7 +23,7 @@ const LoginLogoutButton = () => {
         await loginWithPopup()
         if (isLoading) return <h1>Loading...</h1>
 
-        Navigate(USER + `/${user?.name}`)
+        // Navigate(USER + `/${user?.name}`)
         // Navigate(USER + `/wevwe`)
     }
 

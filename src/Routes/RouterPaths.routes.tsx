@@ -18,7 +18,7 @@ export function Router() {
                     <Routes>
                         <Route path={"/"} element={<MainLayout />}>
                             <Route index path={HOME} element={<HomePage />} />
-                            <Route path={USER} element={<UserPage />} />
+                            {/* <Route path={USER} element={<UserPage />} /> */}
                             <Route path={PRIVATE} element={
                                 <PrivateRoutes>
                                     <UserPage />
@@ -28,11 +28,11 @@ export function Router() {
 
 
 
-                        <Route path={PRIVATE} element={
+                        {/* <Route path={PRIVATE} element={
                             <PrivateRoutes>
                                 <UserPage />
                             </PrivateRoutes>
-                        } />
+                        } /> */}
                         {/* <Route path={PRIVATE} element={
                         <PrivateRoutes>
                         <CheckoutPage />

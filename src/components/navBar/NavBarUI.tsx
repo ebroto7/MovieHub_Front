@@ -14,17 +14,19 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+
 import LoginLogoutButton from '../loginLogoutButton/LoginLogoutButton';
 import { useNavigate } from 'react-router-dom';
-import { HOME } from '../../Routes/paths';
+import { HOME, USER } from '../../Routes/paths';
 
 
 const pages = ['Products', 'Pricing', 'Blog'];
 const settings = ['Account', 'My Movies', 'Dashboard'];
 
-function ResponsiveAppBar() {
+export function NavBarUI() {
 
-  const {user} = useAuth0()
+  const { user } = useAuth0()
+
   const Navigate = useNavigate()
   const homeNavigate = () => {
     Navigate(HOME)
@@ -47,6 +49,16 @@ function ResponsiveAppBar() {
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
+
+
+  const goToHome = () => {
+    handleCloseUserMenu()
+    Navigate(HOME)
+  }
+  const goToUser = () => {
+    handleCloseUserMenu()
+    Navigate(USER)
+  }
 
   return (
     <AppBar position="static">
@@ -71,7 +83,8 @@ function ResponsiveAppBar() {
             MOVIEHUB
           </Typography>
 
-          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+{/* NAVIGATION MENU */}
+          {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -106,7 +119,12 @@ function ResponsiveAppBar() {
                 </MenuItem>
               ))}
             </Menu>
-          </Box>
+          </Box> */}
+
+          
+
+{/* NAVBARTITLE */}
+{/* TODO => add movieHub Logo */}
           {/* <AdbIcon sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} /> */}
           <Typography
             variant="h5"
@@ -139,12 +157,13 @@ function ResponsiveAppBar() {
             ))}
           </Box>
 
+          {/* user menu */}
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {user 
-                ? <Avatar alt="Remy Sharp" src={user.picture}/> 
-                : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
+                {user
+                  ? <Avatar alt="Remy Sharp" src={user.picture} />
+                  : <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" />
                 }
                 {/* <Avatar alt="Remy Sharp" src="/static/images/avatar/2.jpg" /> */}
               </IconButton>
@@ -165,17 +184,28 @@ function ResponsiveAppBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {settings.map((setting) => (
+              {/* {settings.map((setting) => (
                 <MenuItem key={setting} onClick={handleCloseUserMenu}>
                   <Typography textAlign="center">{setting}</Typography>
                 </MenuItem>
-              ))}
+              ))} */}
+              {user && <Typography textAlign="center">{user.name}</Typography>}
+              {user &&
+                <MenuItem key={"My account"} onClick={goToUser}>
+                  <Typography textAlign="center">{"My acount"}</Typography>
+                </MenuItem>
+              }
+              <MenuItem key={"My account"} onClick={goToHome}>
+                  <Typography textAlign="center">{"Home"}</Typography>
+                </MenuItem>
               <LoginLogoutButton />
             </Menu>
           </Box>
+
         </Toolbar>
       </Container>
     </AppBar>
   );
 }
-export default ResponsiveAppBar;
+// export default NavBarUI;
+

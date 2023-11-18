@@ -7,7 +7,11 @@ import { UserType } from '../../types/user.interface';
 const initialUser:UserType = {
     id: "1123",
     name: "user",
-    email: "email"
+    email: "email",
+    movies: [],
+    password: "123",
+    createdAt: new Date(),
+    updatedAt: new Date()
 }
 
 export type UserStateProps = {

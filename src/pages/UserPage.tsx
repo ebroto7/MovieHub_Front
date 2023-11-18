@@ -14,6 +14,7 @@ const UserPage = () => {
     return (
         <>
         <div>{userInfo.name}</div>
+
         <UserVerticalTabs {...userInfo}/>
         </>
     )
