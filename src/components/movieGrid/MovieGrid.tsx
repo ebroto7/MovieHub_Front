@@ -2,13 +2,14 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import MovieCard from '../movieCard/MovieCard';
 import { GenreType } from '../../types/genre.interface';
+import { UserType } from '../../types/user.interface';
 import { FC } from 'react';
 
 
-const MovieGrid: FC<GenreType> = (genre) => {
+const MovieGrid: FC<GenreType | UserType> = (movieList) => {
 
-  const movies = genre.movies
-  console.log("movigrid ",genre.name,movies)
+  const movies = movieList.movies
+  console.log("movigrid ",movieList.name,movies)
 
   return (
     <Box sx={{ flexGrow: 1 }}>

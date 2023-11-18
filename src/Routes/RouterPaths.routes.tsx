@@ -7,11 +7,13 @@ import UserPage from "../pages/UserPage";
 
 import { APIGenreProvider } from "../context/genreContext/genreContext";
 import { MovieProvider } from "../context/moviesContext/MoviesContext";
+import { UserProvider } from "../context/userContext/UserContext";
 
 export function Router() {
     return (
         // <MovieProvider>
-            <APIGenreProvider>
+        <APIGenreProvider>
+            <UserProvider>
                 <BrowserRouter>
                     <Routes>
                         <Route path={"/"} element={<MainLayout />}>
@@ -38,7 +40,8 @@ export function Router() {
                     } /> */}
                     </Routes>
                 </BrowserRouter>
-            </APIGenreProvider>
+            </UserProvider>
+        </APIGenreProvider>
         // </MovieProvider> 
     )
 }
