@@ -36,10 +36,10 @@ interface DeleteMovie {
     }
 }
 
-type Action = CreateMovie | DeleteMovie | UpdateMovie 
+type Action = CreateMovie | DeleteMovie | UpdateMovie
 // | GetAllMovies
 
-export const movieReducer = async (movieList: MovieType[], action: Action) => {
+export const movieReducer = (movieList: MovieType[], action: Action) => {
     switch (action.type) {
         // case Actions.GetAllMovies: {
         //     const movies: MovieType[] = await fetchAllmovies()
@@ -47,22 +47,27 @@ export const movieReducer = async (movieList: MovieType[], action: Action) => {
         // }
         case Actions.CreateMovie: {
             // TODO
-            // metodo post to new movie
-            const movies = await fetchAllmovies()
-            return movies
+            const newMovie = action.payload.movie
+
+            return [...movieList, newMovie]
         }
         case Actions.UpdateMovie: {
-            // TODO
+            let movie = movieList.find(
+                (movie) => movie.id === action.payload.movie.id
+            )
+            if (movie) {
+                movie = action.payload.movie
+            }
 
-            // metodo patch to updateMovie
-            const movies = await fetchAllmovies()
-            return movies
+            return [...movieList]
         }
         case Actions.DeleteMovie: {
-            // TODO
-            // metodo deleteMovieById
-            const movies = await fetchAllmovies()
-            return movies
+            const movieIndex = movieList.findIndex(
+                (movie) => movie.id === action.payload.movieId
+            )
+            movieList.splice(movieIndex, 1)
+
+            return [...movieList]
         }
     }
     return movieList
@@ -84,14 +89,14 @@ export const MovieContext = createContext<MovieStateProps>({
     deleteMovie: () => { },
 })
 
-const init = async () => {
-    
-    const response = await axios.get(moviesUrl)
-    const movies: MovieType[] = response.data
-    console.log("fetchAllmovies",movies)
-    if (movies) {
-        return movies
-    }
+const init = () => {
+
+    // const response = await axios.get(moviesUrl)
+    // const movies: MovieType[] = response.data
+    // console.log("fetchAllmovies",movies)
+    // if (movies) {
+    //     return movies
+    // }
 
     return initialArgs;
 };
@@ -99,7 +104,7 @@ const fetchAllmovies = async () => {
     try {
         const response = await axios.get(moviesUrl)
         const movies: MovieType[] = response.data
-        console.log("fetchAllmovies",movies)
+        console.log("fetchAllmovies", movies)
 
         return movies;
     } catch (error) {
@@ -128,6 +133,8 @@ const MovieProvider: FC<PropsWithChildren> = ({ children }) => {
 
 
     const createMovie = (movie: MovieType) => {
+        //TODO
+        //create movie from API (post method)
         dispatch({
             type: Actions.CreateMovie,
             payload: {
@@ -136,14 +143,20 @@ const MovieProvider: FC<PropsWithChildren> = ({ children }) => {
         })
     }
     const deleteMovie = (movieId: string) => {
+
+        //TODO
+        //delete movie from API (delete method)
+
         dispatch({
-            type: Actions.CreateMovie,
+            type: Actions.DeleteMovie,
             payload: {
                 movieId
             }
         })
     }
     const updateMovie = (movie: MovieType) => {
+        //TODO
+        //update movie from API (patch method)
         dispatch({
             type: Actions.CreateMovie,
             payload: {
