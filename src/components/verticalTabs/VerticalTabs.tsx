@@ -61,39 +61,20 @@ const VerticalTabs: FC<props> = ({ genres }) => {
         value={value}
         onChange={handleChange}
         aria-label="Vertical tabs example"
-        sx={{ borderRight: 1, borderColor: 'divider' }}
+        sx={{ borderRight: 1, borderColor: 'divider', minWidth: 120 }}
       >
-        {genres.map((genre) => (
-          <Tab key={genre.id} label={`${genre.name}`} {...a11yProps(genre.id)} />
+        {genres.map((genre, index) => (
+          <Tab key={genre.id} label={`${genre.name}`} {...a11yProps(index)} />
         ))}
 
       </Tabs>
-      {/* {genres.map((genre) => (
-        <TabPanel value={value} index={0}>
-          {genre.name}
+      {genres.map((genre, index) => (
+        <TabPanel value={value} index={index}>
+         
+          <p>movies: {genre.movies?.length}</p>
+          <MovieGrid {...genre}/>
         </TabPanel>
-      ))} */}
-      <TabPanel value={value} index={0}>
-        <MovieGrid {...genres[0]}/>
-      </TabPanel>
-      <TabPanel value={value} index={1}>
-        Item Two
-      </TabPanel>
-      <TabPanel value={value} index={2}>
-        Item Three
-      </TabPanel>
-      <TabPanel value={value} index={3}>
-        Item Four
-      </TabPanel>
-      <TabPanel value={value} index={4}>
-        Item Five
-      </TabPanel>
-      <TabPanel value={value} index={5}>
-        Item Six
-      </TabPanel>
-      <TabPanel value={value} index={6}>
-        Item Seven
-      </TabPanel>
+      ))}
     </Box>
   );
 }

@@ -7,7 +7,7 @@ import Typography from '@mui/material/Typography';
 import { CardActionArea } from '@mui/material';
 import { MovieType } from '../../types/movie.interface';
 
-
+import poster from "../../assets/img/defaultMoviePoster.png"
 
 const MovieCard: FC<MovieType> = (movie) => {
 
@@ -19,13 +19,21 @@ const MovieCard: FC<MovieType> = (movie) => {
   }
   console.log("moviecard", movie)
   return (
-    <Card onClick={handleClick} sx={{ maxWidth: 345 }}>
+    <Card onClick={handleClick} sx={{ maxWidth: 345, minWidth: 200 }}>
       <CardActionArea>
-        <CardMedia
+
+
+        {(movie.poster != null) ? <CardMedia
           component="img"
           height={movie.poster}
           alt={`${movie.title} poster`}
         />
+          : <CardMedia
+            component="img"
+            src={poster}
+            alt={`${movie.title} poster`}
+          />
+        }
         <CardContent>
           <Typography gutterBottom variant="h5" component="div">
             {movie.title}

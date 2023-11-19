@@ -7,7 +7,7 @@ const PrivateRoutes: FC<PropsWithChildren> = ({ children }) => {
 
   const { isAuthenticated, isLoading } = useAuth0()
 
-
+  if (!isAuthenticated) return <div>Is not Authenticated </div>
   if (isLoading) return <div>Loading...</div>
   console.log(isAuthenticated)
 

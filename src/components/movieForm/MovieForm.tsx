@@ -1,15 +1,14 @@
 import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { FormControl, Input, FormHelperText, InputLabel, Rating, MenuItem } from '@mui/material';
+import { Rating, MenuItem } from '@mui/material';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 
 import { useGenreContext } from '../../context/genreContext/genreContext';
 import { useMovieContext } from '../../context/moviesContext/MoviesContext';
 import { MovieType } from '../../types/movie.interface';
-import { GenreType } from '../../types/genre.interface';
-import { useParams } from 'react-router-dom';
+
 import { useUserContext } from '../../context/userContext/UserContext';
 
 type GenreForm = {
@@ -19,8 +18,7 @@ type GenreForm = {
 
 const MovieForm = () => {
     const { createMovie } = useMovieContext()
-    const { userId } = useParams<{ userId: string }>()
-    const { apiGenres, apiError } = useGenreContext()
+    const { apiGenres } = useGenreContext()
 
     const { userLoged } = useUserContext()
 
@@ -50,8 +48,6 @@ const MovieForm = () => {
 
     const [isValidForm, setIsValidForm] = useState<boolean>(false)
     const [isValidMessage, setIsValidMessage] = useState<string>("")
-
-    let validateMessage: string = "Please check required fields. "
 
     useEffect(() => {
         validateForm()
@@ -84,7 +80,7 @@ const MovieForm = () => {
 
     const validateForm = () => {
        
-        let message: string =   "Please check required fields. "      
+        let message: string = "Please check required fields. "      
 
         let validate = true
         if (title.length < 3) {
