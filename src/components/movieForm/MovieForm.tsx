@@ -1,34 +1,52 @@
 import { useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
-import { FormControl, Input, FormHelperText, InputLabel, Rating } from '@mui/material';
+import { FormControl, Input, FormHelperText, InputLabel, Rating, MenuItem } from '@mui/material';
 import Button from '@mui/material/Button';
 import SendIcon from '@mui/icons-material/Send';
 
+import { useGenreContext } from '../../context/genreContext/genreContext';
 import { useMovieContext } from '../../context/moviesContext/MoviesContext';
 import { MovieType } from '../../types/movie.interface';
 import { GenreType } from '../../types/genre.interface';
 import { useParams } from 'react-router-dom';
+import { useUserContext } from '../../context/userContext/UserContext';
+
+type GenreForm = {
+    value: string | number
+    label: string
+}
 
 const MovieForm = () => {
     const { createMovie } = useMovieContext()
     const { userId } = useParams<{ userId: string }>()
+    const { apiGenres, apiError } = useGenreContext()
 
-    const userLogedId = () => {
-        console.log("movie form param userid", userId)
-        if (userId) return userId
-        return "0"
+    const { userLoged } = useUserContext()
+
+    const genreItems = () => {
+        const genres: GenreForm[] = []
+        apiGenres.map((genre) => {
+            const newGenre: GenreForm = {
+                value: genre.id,
+                label: genre.name
+            }
+            genres.push(newGenre)
+        }
+        )
+        return genres
     }
 
     const [title, setTitle] = useState<string>("")
     const [description, setDescription] = useState<string>("")
-    const [genre, setGenre] = useState()
+    const [genre, setGenre] = useState<number | string>(0)
     const [year, setYear] = useState<number>(0)
     const [duration, setDuration] = useState<number>(0)
     const [director, setDirector] = useState<string>("")
     const [stars, setStars] = useState<string>("")
     const [comments, setComents] = useState<string>("")
     const [poster, setPoster] = useState<string>("")
+    const [rating, setRating] = useState<number>(0)
 
     const HandleSubmit = (ev: React.FormEvent) => {
         ev.preventDefault()
@@ -36,17 +54,19 @@ const MovieForm = () => {
         const newMovie: MovieType = {
             title: title,
             description: description,
-            // genre: "",
+            genreId: genre,
             year: year,
             duration: duration,
             director: director,
             stars: [stars],
             comments: [comments],
-            genreId: 1,
-            userId: userLogedId()
+            userId: userLoged.id,
+            rated: rating,
+            poster: poster
         }
 
-        createMovie(newMovie)
+        console.log("movie form: ", newMovie)
+        // createMovie(newMovie)
     }
 
 
@@ -66,8 +86,25 @@ const MovieForm = () => {
                 <br />
                 <br />
                 <TextField id="genre" label="Genre" variant="standard" select required
-                // onChange={ev => setGenre(ev.target.value)}
+                    value={1}
                 />
+                <TextField
+                    id="outlined-select-currency"
+                    select
+                    label="Genre"
+                    defaultValue={0}
+                    value={1}
+
+                    onChange={ev => setGenre(ev.target.value)}
+
+                    required
+                >
+                    {genreItems().map((genre) => (
+                        <MenuItem key={genre.value} value={genre.value}>
+                            {genre.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
                 <br />
                 <TextField id="year" label="year" variant="standard" type="number" required
                     onChange={ev => setYear(Number(ev.target.value))}
@@ -83,7 +120,7 @@ const MovieForm = () => {
                 />
                 <br />
                 <TextField id="stars" label="Stars" variant="standard"
-                    onChange={ev => setStars(ev.target.value)}
+                    onChange={ev => { (ev.target.value != "") && setStars(ev.target.value) }}
 
                 />
             </Box>
@@ -109,8 +146,12 @@ const MovieForm = () => {
                 }}
                 noValidate
                 autoComplete="off"
+
             >
-                <Rating name="half-rating" defaultValue={0} precision={0.5} />
+                <Rating name="half-rating" defaultValue={0} precision={0.5}
+                    onChange={(event, newValue) => {
+                       {newValue && setRating(newValue);}
+                    }} />
             </Box>
             <Box
                 component="form"

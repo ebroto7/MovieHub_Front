@@ -1,15 +1,17 @@
-import { FC, 
-         PropsWithChildren, 
-         createContext, 
-         useState, 
-         useEffect, 
-         useContext } from 'react';
+import {
+    FC,
+    PropsWithChildren,
+    createContext,
+    useState,
+    useEffect,
+    useContext
+} from 'react';
 import { useAuth0 } from '@auth0/auth0-react'
 import axios from 'axios';
 
 import { UserType } from '../../types/user.interface';
 
-const initialUser:UserType = {
+const initialUser: UserType = {
     id: "1123",
     name: "user",
     email: "email",
@@ -30,7 +32,7 @@ export const UserContext = createContext<UserStateProps>({
     userLoged: initialUser,
     apiError: true,
     APIuserLogedId: '',
-    createOrLoginUser: () => {}
+    createOrLoginUser: () => { }
 })
 
 
@@ -44,7 +46,7 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
         // getLogedUser()
         createOrLoginUser()
         setAPIUserLogedId(userLoged.id)
-        console.log("setAPIUserLogedId ",userLoged.id)
+        console.log("setAPIUserLogedId ", userLoged.id)
     }, [isAuthenticated])
 
 
@@ -58,20 +60,31 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
     const createOrLoginUser = async () => {
         if (isAuthenticated && user) {
             try {
-                const response = await fetch(userUrl, {
-                    method: 'POST',
+
+                const response = await axios.post(userUrl, {
+                    name: user.name,
+                    email: user.email,
+                }, {
                     headers: {
                         'Content-Type': 'application/json',
-                    },
-                    body: JSON.stringify({
-                        name: user.name,
-                        email: user.email,
-                    }),
-                });
+                    }
+                })
+
+                // const response = await fetch(userUrl, {
+                //     method: 'POST',
+                //     headers: {
+                //         'Content-Type': 'application/json',
+                //     },
+                //     body: JSON.stringify({
+                //         name: user.name,
+                //         email: user.email,
+                //     }),
+                // });
 
                 if (response.status === 201 || response.status === 409) {
                     console.log('Created or existing user');
-                    const user = await response.json();
+                    // const user = await response.json();
+                    const user = await response.data;
 
                     setUserLoged(user);
                     console.log("User:", user);
@@ -104,7 +117,7 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
 
     return (
         <UserContext.Provider
-        value={{ apiError, userLoged, APIuserLogedId, createOrLoginUser }}
+            value={{ apiError, userLoged, APIuserLogedId, createOrLoginUser }}
         >
             {children}
 
