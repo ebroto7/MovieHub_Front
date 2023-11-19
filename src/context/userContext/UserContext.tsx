@@ -40,10 +40,10 @@ export const UserContext = createContext<UserStateProps>({
 const UserProvider: FC<PropsWithChildren> = ({ children }) => {
 
     const { isAuthenticated, user } = useAuth0()
-    // const [isAuth, setIsAuth] = useState<boolean>(false)
+     const [isAuth, setIsAuth] = useState<boolean>(false)
     useEffect(() => {
-        // setIsAuth(isAuthenticated)
-        // getLogedUser()
+        setIsAuth(isAuthenticated)
+        getLogedUser()
         createOrLoginUser()
         setAPIUserLogedId(userLoged.id)
         console.log("setAPIUserLogedId ", userLoged.id)
@@ -61,30 +61,30 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
         if (isAuthenticated && user) {
             try {
 
-                const response = await axios.post(userUrl, {
-                    name: user.name,
-                    email: user.email,
-                }, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    }
-                })
-
-                // const response = await fetch(userUrl, {
-                //     method: 'POST',
+                // const response = await axios.post(userUrl, {
+                //     name: user.name,
+                //     email: user.email,
+                // }, {
                 //     headers: {
                 //         'Content-Type': 'application/json',
-                //     },
-                //     body: JSON.stringify({
-                //         name: user.name,
-                //         email: user.email,
-                //     }),
-                // });
+                //     }
+                // })
+
+                const response = await fetch(userUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: user.name,
+                        email: user.email,
+                    }),
+                });
 
                 if (response.status === 201 || response.status === 409) {
                     console.log('Created or existing user');
-                    // const user = await response.json();
-                    const user = await response.data;
+                    const user = await response.json();
+                    // const user = await response.data;
 
                     setUserLoged(user);
                     console.log("User:", user);
@@ -101,19 +101,19 @@ const UserProvider: FC<PropsWithChildren> = ({ children }) => {
     };
 
 
-    // const getLogedUser = async () => {
-    //     const userLogedUrl = `${userUrl}user/${APIuserLogedId}`
-    //     try {
-    //         const response = await axios.get(userLogedUrl);
-    //         setAPIUserLogedId(response.data);
+    const getLogedUser = async () => {
+        const userLogedUrl = `${userUrl}user/${APIuserLogedId}`
+        try {
+            const response = await axios.get(userLogedUrl);
+            setAPIUserLogedId(response.data);
 
-    //         console.log("API getAllGenres ", response.data)
-    //         setApiError(false)
-    //     } catch (error) {
-    //         setApiError(true)
-    //         console.log(error)
-    //     }
-    // }
+            console.log("API getAllGenres ", response.data)
+            setApiError(false)
+        } catch (error) {
+            setApiError(true)
+            console.log(error)
+        }
+    }
 
     return (
         <UserContext.Provider

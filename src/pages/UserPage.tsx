@@ -1,8 +1,7 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useUserContext } from '../context/userContext/UserContext'
 import { UserType } from '../types/user.interface'
 import UserVerticalTabs from '../components/verticalTabs/userVerticalTabs'
-import { Movie } from '@mui/icons-material'
 
 
 const UserPage = () => {
@@ -21,8 +20,9 @@ const UserPage = () => {
                     <div>{movie.title}</div>
                 })
 
-                : <p>NO movies</p>
+                : <p>NO movies </p>
             }
+            
             <UserVerticalTabs {...userInfo} />
         </>
     )

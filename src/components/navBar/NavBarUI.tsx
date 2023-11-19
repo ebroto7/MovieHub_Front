@@ -16,14 +16,15 @@ import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import AdbIcon from '@mui/icons-material/Adb';
+import { Movie } from '@mui/icons-material'
+
 
 import LoginLogoutButton from '../loginLogoutButton/LoginLogoutButton';
 import { useNavigate } from 'react-router-dom';
 import { HOME, USER } from '../../Routes/paths';
 
 
-// const pages = ['Products', 'Pricing', 'Blog'];
-// const settings = ['Account', 'My Movies', 'Dashboard'];
+const pages = ['Pricing', 'Blog', "About us"];
 
 export function NavBarUI() {
 
@@ -32,25 +33,28 @@ export function NavBarUI() {
   const Navigate = useNavigate()
  
 
-  // const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-  // const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-  //   setAnchorElNav(event.currentTarget);
-  // };
+  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+    setAnchorElNav(event.currentTarget);
+  };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  // const handleCloseNavMenu = () => {
-  //   setAnchorElNav(null);
-  // };
+  const handleCloseNavMenu = () => {
+    setAnchorElNav(null);
+  };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
   };
 
 
+  const homeNavigate = () => {
+    Navigate(HOME)
+  }
   const goToHome = () => {
     handleCloseUserMenu()
     Navigate(HOME)
@@ -64,7 +68,7 @@ export function NavBarUI() {
     <AppBar position="static">
       <Container maxWidth="xl">
         <Toolbar disableGutters>
-          <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          {/* <AdbIcon sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} /> */}
           <Typography
             variant="h6"
             noWrap
@@ -80,11 +84,12 @@ export function NavBarUI() {
               textDecoration: 'none',
             }}
           >
+            <Movie />
             MOVIEHUB
           </Typography>
 
 {/* NAVIGATION MENU */}
-          {/* <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
               aria-label="account of current user"
@@ -119,7 +124,7 @@ export function NavBarUI() {
                 </MenuItem>
               ))}
             </Menu>
-          </Box> */}
+          </Box>
 
           
 
@@ -139,14 +144,15 @@ export function NavBarUI() {
               fontWeight: 700,
               letterSpacing: '.3rem',
               color: 'inherit',
-              textDecoration: 'none',
+              textDecoration: 'none'
             }}
           >
-            {/* <p onClick={homeNavigate} >MOVIEHUB</p> */}
+
+
             MOVIEHUB
           </Typography>
 
-          {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -156,7 +162,7 @@ export function NavBarUI() {
                 {page}
               </Button>
             ))}
-          </Box> */}
+          </Box>
 
           {/* user menu */}
           <Box sx={{ flexGrow: 0 }}>
@@ -185,11 +191,7 @@ export function NavBarUI() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              {/* {settings.map((setting) => (
-                <MenuItem key={setting} onClick={handleCloseUserMenu}>
-                  <Typography textAlign="center">{setting}</Typography>
-                </MenuItem>
-              ))} */}
+            
               {user && <Typography textAlign="center">{user.name}</Typography>}
               {user &&
                 <MenuItem key={"My account"} onClick={goToUser}>
@@ -208,5 +210,4 @@ export function NavBarUI() {
     </AppBar>
   );
 }
-// export default NavBarUI;
 

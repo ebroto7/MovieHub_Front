@@ -1,15 +1,14 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import MovieCard from '../movieCard/MovieCard';
-import { GenreType } from '../../types/genre.interface';
-import { UserType } from '../../types/user.interface';
+
 import { FC } from 'react';
 import { MovieType } from '../../types/movie.interface';
 
 
-const MovieGrid: FC<GenreType | UserType> = (movieList) => {
+const AllMoviesGrid: FC<MovieType[]> = (movieList) => {
 
-  const movies: MovieType[] | undefined = movieList.movies
+  const movies: MovieType[] | undefined = movieList
   console.log("user movigrid ", movieList, movies)
   if (movies === undefined) return <p>Loading</p>
   return (
@@ -21,7 +20,6 @@ const MovieGrid: FC<GenreType | UserType> = (movieList) => {
               {movies.map((movie, index) => (
                 <Grid item xs={2} sm={4} md={4} key={index}>
                   {movies ? <MovieCard key={movie.id} {...movie}/> : <p>no movies</p> }
-                  {/* <MovieCard {...movie} /> */}
                 </Grid>
               ))}
             </Grid>
@@ -33,4 +31,4 @@ const MovieGrid: FC<GenreType | UserType> = (movieList) => {
 
 }
 
-export default MovieGrid
+export default AllMoviesGrid

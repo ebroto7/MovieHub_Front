@@ -6,6 +6,9 @@ import Box from '@mui/material/Box';
 import MovieGrid from '../movieGrid/MovieGrid';
 import { GenreType } from '../../types/genre.interface';
 
+import { useMovieContext } from '../../context/moviesContext/MoviesContext';
+import AllMoviesGrid from '../movieGrid/AllMoviesGrid';
+
 interface TabPanelProps {
   children?: React.ReactNode;
   index: number | string;
@@ -45,7 +48,9 @@ type props = {
 }
 
 const VerticalTabs: FC<props> = ({ genres }) => {
+  const { allMovies } = useMovieContext()
   const [value, setValue] = useState(0);
+  console.log("home page allmovies ", allMovies)
 
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
@@ -63,16 +68,23 @@ const VerticalTabs: FC<props> = ({ genres }) => {
         aria-label="Vertical tabs example"
         sx={{ borderRight: 1, borderColor: 'divider', minWidth: 120 }}
       >
+        <Tab key={"allMovies"} label={"All movies"} {...a11yProps(0)} />
+
         {genres.map((genre, index) => (
           <Tab key={genre.id} label={`${genre.name}`} {...a11yProps(index)} />
         ))}
 
       </Tabs>
+      <TabPanel value={value} index={0}>
+        {/* {(allMovies.length != 0) ? <AllMoviesGrid {...allMovies} /> : <p>NO MOVIES DOWNLOADED</p>} */}
+
+
+      </TabPanel>
       {genres.map((genre, index) => (
-        <TabPanel value={value} index={index}>
-         
+        <TabPanel value={value} index={index + 1}>
+
           <p>movies: {genre.movies?.length}</p>
-          <MovieGrid {...genre}/>
+          <MovieGrid {...genre} />
         </TabPanel>
       ))}
     </Box>

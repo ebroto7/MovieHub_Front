@@ -73,14 +73,14 @@ const MovieForm = () => {
             }
 
             console.log("movie form: ", newMovie)
-             createMovie(newMovie)
+            createMovie(newMovie)
         }
 
     }
 
     const validateForm = () => {
-       
-        let message: string = "Please check required fields. "      
+
+        let message: string = "Please check required fields. "
 
         let validate = true
         if (title.length < 3) {
@@ -112,7 +112,7 @@ const MovieForm = () => {
             <Box
                 component="form"
                 sx={{
-                    '& > :not(style)': { m: 1, width: '33%' },
+                    '& > :not(style)': { m: 1, width: '45%' },
                 }}
                 noValidate
                 autoComplete="off"
@@ -126,7 +126,7 @@ const MovieForm = () => {
                     id="outlined-select-currency"
                     select
                     label="Genre"
-                    defaultValue={0}
+                    defaultValue={1}
                     value={1}
 
                     onChange={ev => setGenre(ev.target.value)}
@@ -162,7 +162,7 @@ const MovieForm = () => {
             <Box
                 component="form"
                 sx={{
-                    '& > :not(style)': { m: 1, width: '68ch' },
+                    '& > :not(style)': { m: 1, width: '92%' },
                 }}
                 noValidate
                 autoComplete="off"
@@ -190,7 +190,7 @@ const MovieForm = () => {
             <Box
                 component="form"
                 sx={{
-                    '& > :not(style)': { m: 1, width: '68ch' },
+                    '& > :not(style)': { m: 1, width: '92%' },
                 }}
                 noValidate
                 autoComplete="off"
@@ -205,11 +205,11 @@ const MovieForm = () => {
             </Box>
 
             {isValidForm ?
-            <Button variant="contained" endIcon={<SendIcon />} type="submit">Submit</Button>
-           : <Button variant="outlined" endIcon={<SendIcon />} type="submit" disabled>Submit</Button> } 
+                <Button variant="contained" endIcon={<SendIcon />} type="submit">Submit</Button>
+                : <Button variant="outlined" endIcon={<SendIcon />} type="submit" disabled>Submit</Button>}
         </form>
         {!isValidForm && <p>{isValidMessage}</p>}
-        </>
+    </>
     );
 }
 

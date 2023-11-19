@@ -1,6 +1,7 @@
-import { FC, createContext, useReducer, PropsWithChildren, useEffect, useContext } from "react";
+import { FC, createContext, useReducer, PropsWithChildren, useEffect, useContext, useState } from "react";
 import { MovieType } from "../../types/movie.interface";
 import axios from "axios";
+import { useUserContext } from "../userContext/UserContext";
 
 const moviesUrl = `${import.meta.env.VITE_API_BASE_URL}movie/`
 
@@ -8,15 +9,12 @@ const moviesUrl = `${import.meta.env.VITE_API_BASE_URL}movie/`
 const initialArgs: MovieType[] = []
 
 enum Actions {
-    // GetAllMovies = "getAllMovies",
     CreateMovie = "createMovie",
     DeleteMovie = "deleteMovie",
     UpdateMovie = "updateMovie",
 }
 
-// interface GetAllMovies {
-//     type: Actions.GetAllMovies,
-// }
+
 interface CreateMovie {
     type: Actions.CreateMovie,
     payload: {
@@ -37,17 +35,13 @@ interface DeleteMovie {
 }
 
 type Action = CreateMovie | DeleteMovie | UpdateMovie
-// | GetAllMovies
 
 export const movieReducer = (movieList: MovieType[], action: Action) => {
     switch (action.type) {
-        // case Actions.GetAllMovies: {
-        //     const movies: MovieType[] = await fetchAllmovies()
-        //     return movies
-        // }
+       
         case Actions.CreateMovie: {
-            // TODO
             const newMovie = action.payload.movie
+            console.log("movie reducer create movie",newMovie,...movieList)
 
             return [...movieList, newMovie]
         }
@@ -75,7 +69,7 @@ export const movieReducer = (movieList: MovieType[], action: Action) => {
 
 type MovieStateProps = {
     allMovies: MovieType[];
-    // getAllMovies: () => void,
+    userMovies: MovieType[];
     createMovie: (movie: MovieType) => void,
     updateMovie: (movie: MovieType) => void,
     deleteMovie: (movieId: string) => void,
@@ -83,7 +77,7 @@ type MovieStateProps = {
 
 export const MovieContext = createContext<MovieStateProps>({
     allMovies: [],
-    // getAllMovies: () => { },
+    userMovies: [],
     createMovie: () => { },
     updateMovie: () => { },
     deleteMovie: () => { },
@@ -91,12 +85,7 @@ export const MovieContext = createContext<MovieStateProps>({
 
 const init = () => {
 
-    // const response = await axios.get(moviesUrl)
-    // const movies: MovieType[] = response.data
-    // console.log("fetchAllmovies",movies)
-    // if (movies) {
-    //     return movies
-    // }
+   
 
     return initialArgs;
 };
@@ -112,29 +101,44 @@ const fetchAllmovies = async () => {
     }
     return []
 }
+
+
 const MovieProvider: FC<PropsWithChildren> = ({ children }) => {
 
+    const {userLoged} = useUserContext()
 
     const [allMovies, dispatch] = useReducer(movieReducer, {}, init);
+    const [userMovies, setUserMovies] = useState<MovieType[]>([])
 
 
 
     useEffect(() => {
         fetchAllmovies()
+        getAllMoviesByUserId(userLoged.id)
     }, [allMovies])
 
-    // const getAllMovies = () => {
-    //     dispatch(
-    //     //     {
-    //     //     type: Actions.GetAllMovies
-    //     // }
-    //     )
-    // }
 
-
-    const createMovie = (movie: MovieType) => {
+    const createMovie = async (movie: MovieType) => {
         //TODO
         //create movie from API (post method)
+
+        try {
+            const response = await fetch(`${moviesUrl}/${userLoged.id}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(movie),
+            });
+    
+            if (!response.ok) {
+                throw new Error(`Error creating movie: ${response.statusText}`);
+            }
+        } catch (error) {
+            console.error('Error creating movie', error);
+        }
+
+
         dispatch({
             type: Actions.CreateMovie,
             payload: {
@@ -164,10 +168,22 @@ const MovieProvider: FC<PropsWithChildren> = ({ children }) => {
             }
         })
     }
+    const getAllMoviesByUserId = async (userId: string | number) => {
+        try {
+            const response = await fetch(`${moviesUrl}/user/${userId}`);
+            const data = await response.json();
+            console.log("Data",data);
+            setUserMovies(data)
+            return data;
+        } catch (error) {
+            console.error(`Error getting user's movies ${userId}`, error);
+            return [];
+        }
+    };
 
     return (
         <MovieContext.Provider
-            value={{ allMovies, createMovie, deleteMovie, updateMovie }}
+            value={{ allMovies, createMovie, deleteMovie, updateMovie, userMovies }}
         >
             {children}
         </MovieContext.Provider>

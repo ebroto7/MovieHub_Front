@@ -62,7 +62,8 @@ const UserVerticalTabs: FC<props> = ({ user }) => {
                 value={value}
                 onChange={handleChange}
                 aria-label="Vertical tabs example"
-                sx={{ borderRight: 1, borderColor: 'divider' }}
+                sx={{ borderRight: 1, borderColor: 'divider', minWidth: 120 }}
+
             >
                 
                     <Tab key={0} label={"Welcome"} {...a11yProps(0)} />
