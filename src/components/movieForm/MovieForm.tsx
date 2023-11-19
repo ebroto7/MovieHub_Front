@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import { FormControl, Input, FormHelperText, InputLabel, Rating, MenuItem } from '@mui/material';
@@ -48,25 +48,66 @@ const MovieForm = () => {
     const [poster, setPoster] = useState<string>("")
     const [rating, setRating] = useState<number>(0)
 
+    const [isValidForm, setIsValidForm] = useState<boolean>(false)
+    const [isValidMessage, setIsValidMessage] = useState<string>("")
+
+    let validateMessage: string = "Please check required fields. "
+
+    useEffect(() => {
+        validateForm()
+    }, [title, description, year, duration])
+
     const HandleSubmit = (ev: React.FormEvent) => {
         ev.preventDefault()
+        validateForm()
 
-        const newMovie: MovieType = {
-            title: title,
-            description: description,
-            genreId: genre,
-            year: year,
-            duration: duration,
-            director: director,
-            stars: [stars],
-            comments: [comments],
-            userId: userLoged.id,
-            rated: rating,
-            poster: poster
+        if (isValidForm) {
+            const newMovie: MovieType = {
+                title: title,
+                description: description,
+                genreId: genre,
+                year: year,
+                duration: duration,
+                director: director,
+                stars: [stars],
+                comments: [comments],
+                userId: userLoged.id,
+                rated: rating,
+                poster: poster
+            }
+
+            console.log("movie form: ", newMovie)
+             createMovie(newMovie)
         }
 
-        console.log("movie form: ", newMovie)
-        // createMovie(newMovie)
+    }
+
+    const validateForm = () => {
+       
+        let message: string =   "Please check required fields. "      
+
+        let validate = true
+        if (title.length < 3) {
+            validate = false
+            message = message + "The movie title must be more than 3 characters. "
+        }
+        if (description.length < 3) {
+            validate = false
+            message = message + "The movie description must be more than 3 characters. "
+        }
+        if (year < 1900 || year > 2025) {
+            validate = false
+            message = message + "The year of the film must be between 1900 and the current date. "
+        }
+        if (duration < 1) {
+            validate = false
+            message = message + "you must indicate a duration greater than 1min. "
+        }
+        console.log("validate form function ", validate)
+        console.log("validate form function ", isValidMessage)
+
+        setIsValidMessage(message)
+        setIsValidForm(validate)
     }
 
 
@@ -75,7 +116,7 @@ const MovieForm = () => {
             <Box
                 component="form"
                 sx={{
-                    '& > :not(style)': { m: 1, width: '33ch' },
+                    '& > :not(style)': { m: 1, width: '33%' },
                 }}
                 noValidate
                 autoComplete="off"
@@ -83,11 +124,8 @@ const MovieForm = () => {
                 <TextField id="movie-title" label="Movie title" variant="standard" required
                     onChange={ev => setTitle(ev.target.value)}
                 />
-                <br />
-                <br />
-                <TextField id="genre" label="Genre" variant="standard" select required
-                    value={1}
-                />
+
+
                 <TextField
                     id="outlined-select-currency"
                     select
@@ -150,7 +188,7 @@ const MovieForm = () => {
             >
                 <Rating name="half-rating" defaultValue={0} precision={0.5}
                     onChange={(event, newValue) => {
-                       {newValue && setRating(newValue);}
+                        { newValue && setRating(newValue); }
                     }} />
             </Box>
             <Box
@@ -170,24 +208,13 @@ const MovieForm = () => {
 
             </Box>
 
+            {isValidForm ?
             <Button variant="contained" endIcon={<SendIcon />} type="submit">Submit</Button>
+           : <Button variant="outlined" endIcon={<SendIcon />} type="submit" disabled>Submit</Button> } 
         </form>
-    </>
+        {!isValidForm && <p>{isValidMessage}</p>}
+        </>
     );
 }
 
 export default MovieForm
-
-
-// title       String @unique
-// description String @unique
-// year        String
-
-// director String?
-// stars    String?
-// duration String?
-// rated    String?
-// poster   String?  @unique
-// comments String[]
-
-// genreId Int? 
