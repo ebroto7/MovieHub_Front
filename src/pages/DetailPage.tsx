@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
+import { useParams } from 'react-router-dom'
 import { useUserContext } from '../context/userContext/UserContext'
 import { UserType } from '../types/user.interface'
 import UserVerticalTabs from '../components/verticalTabs/userVerticalTabs'
@@ -15,6 +16,8 @@ const hardcodedMovie: MovieType = {
 }
 
 const DetailPage = () => {
+    const { movieId: movieId } = useParams<{ movieId: string }>()
+
     const { userLoged } = useUserContext()
     const [userInfo, setUserInfo] = useState<UserType>(userLoged)
     useEffect(() => {

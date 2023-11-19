@@ -23,40 +23,88 @@ export type UserStateProps = {
     userLoged: UserType
     apiError: boolean
     APIuserLogedId: String | number
+    createOrLoginUser: () => void
 }
 
 export const UserContext = createContext<UserStateProps>({
     userLoged: initialUser,
     apiError: true,
-    APIuserLogedId: '' 
+    APIuserLogedId: '',
+    createOrLoginUser: () => {}
 })
 
 
 
 const UserProvider: FC<PropsWithChildren> = ({ children }) => {
+
+    const { isAuthenticated, user } = useAuth0()
+    // const [isAuth, setIsAuth] = useState<boolean>(false)
+    useEffect(() => {
+        // setIsAuth(isAuthenticated)
+        // getLogedUser()
+        createOrLoginUser()
+        setAPIUserLogedId(userLoged.id)
+        console.log("setAPIUserLogedId ",userLoged.id)
+    }, [isAuthenticated])
+
+
     const userUrl = `${import.meta.env.VITE_API_BASE_URL}user/`
     const [apiError, setApiError] = useState<boolean>(true)
 
     const [APIuserLogedId, setAPIUserLogedId] = useState<string | number>('')
     const [userLoged, setUserLoged] = useState<UserType>(initialUser)
 
-    const getLogedUser = async () => {
-        const userLogedUrl = `${userUrl}user/${APIuserLogedId}`
-        try {
-            const response = await axios.get(userLogedUrl);
-            setUserLoged(response.data);
 
-            console.log("API getAllGenres ", response.data)
-            setApiError(false)
-        } catch (error) {
-            setApiError(true)
-            console.log(error)
+    const createOrLoginUser = async () => {
+        if (isAuthenticated && user) {
+            try {
+                const response = await fetch(userUrl, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                    body: JSON.stringify({
+                        name: user.name,
+                        email: user.email,
+                    }),
+                });
+
+                if (response.status === 201 || response.status === 409) {
+                    console.log('Created or existing user');
+                    const user = await response.json();
+
+                    setUserLoged(user);
+                    console.log("User:", user);
+                } else {
+                    console.error('Error creating or verifying user');
+                }
+                setApiError(false)
+
+            } catch (error) {
+                console.error('Network error creating or verifying user', error);
+                setApiError(true)
+            }
         }
-    }
+    };
+
+
+    // const getLogedUser = async () => {
+    //     const userLogedUrl = `${userUrl}user/${APIuserLogedId}`
+    //     try {
+    //         const response = await axios.get(userLogedUrl);
+    //         setAPIUserLogedId(response.data);
+
+    //         console.log("API getAllGenres ", response.data)
+    //         setApiError(false)
+    //     } catch (error) {
+    //         setApiError(true)
+    //         console.log(error)
+    //     }
+    // }
 
     return (
         <UserContext.Provider
-        value={{ apiError, userLoged, APIuserLogedId }}
+        value={{ apiError, userLoged, APIuserLogedId, createOrLoginUser }}
         >
             {children}
 

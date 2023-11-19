@@ -1,5 +1,7 @@
 import * as React from 'react';
 import { useAuth0 } from '@auth0/auth0-react'
+import { useUserContext } from '../../context/userContext/UserContext';
+
 
 import AppBar from '@mui/material/AppBar';
 import Box from '@mui/material/Box';
@@ -26,7 +28,7 @@ import { HOME, USER } from '../../Routes/paths';
 export function NavBarUI() {
 
   const { user } = useAuth0()
-
+  const {userLoged} = useUserContext()
   const Navigate = useNavigate()
  
 
@@ -55,7 +57,7 @@ export function NavBarUI() {
   }
   const goToUser = () => {
     handleCloseUserMenu()
-    Navigate(USER)
+    Navigate(`${USER}/${userLoged.id}`)
   }
 
   return (

@@ -1,5 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { HOME, PRIVATE, USER, USERID,PRODUCT, DETAIL } from "./paths";
+import { HOME, PRIVATE, USER, USERID,MOVIE, DETAIL } from "./paths";
 import PrivateRoutes from "./PrivateRoutes";
 import { MainLayout } from "../layouts/MainLayout";
 import HomePage  from "../pages/HomePage";
@@ -20,7 +20,7 @@ export function Router() {
                     <Routes>
                         <Route path={"/"} element={<MainLayout />}>
                             <Route index path={HOME} element={<HomePage />} />
-                            <Route path={PRODUCT}>
+                            <Route path={MOVIE}>
                                 <Route path={DETAIL} element={<DetailPage />} />
                             </Route>
                             <Route path={PRIVATE} element={
