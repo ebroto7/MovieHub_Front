@@ -1,9 +1,11 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom"
-import { HOME, PRIVATE, USER, USERID } from "./paths";
+import { HOME, PRIVATE, USER, USERID,PRODUCT, DETAIL } from "./paths";
 import PrivateRoutes from "./PrivateRoutes";
 import { MainLayout } from "../layouts/MainLayout";
-import { HomePage } from "../pages/HomePage";
+import HomePage  from "../pages/HomePage";
 import UserPage from "../pages/UserPage";
+import DetailPage from "../pages/DetailPage"
+
 
 import { APIGenreProvider } from "../context/genreContext/genreContext";
 import { MovieProvider } from "../context/moviesContext/MoviesContext";
@@ -18,7 +20,9 @@ export function Router() {
                     <Routes>
                         <Route path={"/"} element={<MainLayout />}>
                             <Route index path={HOME} element={<HomePage />} />
-                            {/* <Route path={USER} element={<UserPage />} /> */}
+                            <Route path={PRODUCT}>
+                                <Route path={DETAIL} element={<DetailPage />} />
+                            </Route>
                             <Route path={PRIVATE} element={
                                 <PrivateRoutes>
                                     <UserPage />
@@ -26,18 +30,6 @@ export function Router() {
                             } />
                         </Route>
 
-
-
-                        {/* <Route path={PRIVATE} element={
-                            <PrivateRoutes>
-                                <UserPage />
-                            </PrivateRoutes>
-                        } /> */}
-                        {/* <Route path={PRIVATE} element={
-                        <PrivateRoutes>
-                        <CheckoutPage />
-                        </PrivateRoutes>
-                    } /> */}
                     </Routes>
                 </BrowserRouter>
             </UserProvider>

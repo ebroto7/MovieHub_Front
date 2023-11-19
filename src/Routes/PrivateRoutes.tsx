@@ -28,7 +28,7 @@ const { isAuthenticated, isLoading, user} = useAuth0()
 
     // }
 
-  return isAuthenticated ? children : <Navigate to={`${USER}/${27}`}/>
+  return isAuthenticated ? children : <Navigate to={USER}/>
 //   return isAuthenticated ? children : <Navigate to={USER} />
 }
 
