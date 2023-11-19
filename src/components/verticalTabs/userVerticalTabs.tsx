@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import Box from '@mui/material/Box';
 import MovieGrid from '../movieGrid/MovieGrid';
 import { UserType } from '../../types/user.interface';
+import MovieForm from '../movieForm/MovieForm';
 
 interface TabPanelProps {
     children?: React.ReactNode;
@@ -83,7 +84,8 @@ const UserVerticalTabs: FC<props> = ({ user }) => {
                 <MovieGrid {...user} />
             </TabPanel>
             <TabPanel value={value} index={2}>
-                Item Three
+                <MovieForm />
+                
             </TabPanel>
 
         </Box>

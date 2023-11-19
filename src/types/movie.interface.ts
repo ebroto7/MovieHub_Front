@@ -1,9 +1,9 @@
 export interface MovieType {
-    id: number | string,
+    id?: number | string,
     title: string,
     description: string,
 
-    genreId: string,
+    genreId: string | number,
     director?: string,
     stars?: string[]
     year: number,

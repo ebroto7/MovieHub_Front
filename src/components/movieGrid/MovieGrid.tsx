@@ -10,26 +10,27 @@ import { MovieType } from '../../types/movie.interface';
 const MovieGrid: FC<GenreType | UserType> = (movieList) => {
 
   const movies: MovieType[] | undefined = movieList.movies
-  console.log("user movigrid ",movieList.name,movies)
+  console.log("user movigrid ", movieList.name, movies)
   if (movies === undefined) return <p>Loading</p>
-  return (<>
-   {(movies.length != 0)  ? 
-    <Box sx={{ flexGrow: 1 }}>
-      <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {/* {Array.from(Array(6)).map((_, index) => ( */}
-        {movies.map((movie, index) => (
-          <Grid item xs={2} sm={4} md={4} key={index}>
-            {/* {movies ? <MovieCard {...movie}/> : <p>no movies</p> } */}
-            <MovieCard {...movie}/>
-          </Grid>
-        ))}
-      </Grid>
-    </Box>
-     
-     : <p>no movies</p>  }
-</>
+  return (
+    <>
+      {(movies.length != 0)
+        ? <Box sx={{ flexGrow: 1 }}>
+            <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
+              {/* {Array.from(Array(6)).map((_, index) => ( */}
+              {movies.map((movie, index) => (
+                <Grid item xs={2} sm={4} md={4} key={index}>
+                  {/* {movies ? <MovieCard {...movie}/> : <p>no movies</p> } */}
+                  <MovieCard {...movie} />
+                </Grid>
+              ))}
+            </Grid>
+          </Box>
+
+        : <p>no movies</p>}
+    </>
   );
-        
+
 }
 
 export default MovieGrid

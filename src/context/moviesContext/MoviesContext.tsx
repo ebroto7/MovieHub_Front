@@ -185,15 +185,3 @@ function useMovieContext() {
 
 export { MovieProvider, useMovieContext }
 
-// const getProducts = async () => {
-//     try {
-//        const response = await axios.get(url);
-//     //   const response = await axios.get("https://www.developerway.com/posts/how-to-handle-errors-in-react");
-//       setApiBooks(response.data);
-
-//       setApiError(false)
-
-//     } catch (error) {
-//       setApiError(true)
-//     }
-//  }

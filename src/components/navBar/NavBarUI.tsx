@@ -20,31 +20,29 @@ import { useNavigate } from 'react-router-dom';
 import { HOME, USER } from '../../Routes/paths';
 
 
-const pages = ['Products', 'Pricing', 'Blog'];
-const settings = ['Account', 'My Movies', 'Dashboard'];
+// const pages = ['Products', 'Pricing', 'Blog'];
+// const settings = ['Account', 'My Movies', 'Dashboard'];
 
 export function NavBarUI() {
 
   const { user } = useAuth0()
 
   const Navigate = useNavigate()
-  const homeNavigate = () => {
-    Navigate(HOME)
-  }
+ 
 
-  const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
+  // const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
   const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
-  const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
-    setAnchorElNav(event.currentTarget);
-  };
+  // const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
+  //   setAnchorElNav(event.currentTarget);
+  // };
   const handleOpenUserMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElUser(event.currentTarget);
   };
 
-  const handleCloseNavMenu = () => {
-    setAnchorElNav(null);
-  };
+  // const handleCloseNavMenu = () => {
+  //   setAnchorElNav(null);
+  // };
 
   const handleCloseUserMenu = () => {
     setAnchorElUser(null);
@@ -145,7 +143,8 @@ export function NavBarUI() {
             {/* <p onClick={homeNavigate} >MOVIEHUB</p> */}
             MOVIEHUB
           </Typography>
-          <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
+
+          {/* <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
             {pages.map((page) => (
               <Button
                 key={page}
@@ -155,7 +154,7 @@ export function NavBarUI() {
                 {page}
               </Button>
             ))}
-          </Box>
+          </Box> */}
 
           {/* user menu */}
           <Box sx={{ flexGrow: 0 }}>

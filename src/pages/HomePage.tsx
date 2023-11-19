@@ -5,22 +5,13 @@ import { useGenreContext } from '../context/genreContext/genreContext';
 import { useMovieContext } from '../context/moviesContext/MoviesContext';
 // let genres = ["fiction", "science", "sports", "thriller"]
 
-export const HomePage = () => {
-  // const { allMovies } = useMovieContext()
+const HomePage = () => {
+  const { allMovies } = useMovieContext()
 
   const { apiGenres, apiError } = useGenreContext()
   console.log("home getAllGenres ", apiGenres)
 
-  // console.log("home: allmovies => ", allMovies)
-
-  // const { cartItems } = bookContext()
-  // const [cartNumber, setCartNumber] = useState<number>()
-
-
-  // useEffect(() => {
-  //   localStorage.getItem('books')
-  //   setCartNumber(cartItems.length)
-  // }, [cartNumber, cartItems])
+ 
 
   return (
     <>
@@ -34,3 +25,5 @@ export const HomePage = () => {
     </>
   )
 }
+
+export default  HomePage 
