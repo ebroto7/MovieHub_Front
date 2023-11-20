@@ -54,7 +54,6 @@ const VerticalTabs: FC<props> = ({ genres }) => {
   const [loading, setLoading] = useState(true);
 
   const [value, setValue] = useState(0);
-  console.log("VerticalTabs allmovies ", allMovies)
 
   useEffect(() => {
     const loadData = async () => {

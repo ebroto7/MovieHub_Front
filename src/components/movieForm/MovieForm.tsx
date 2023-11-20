@@ -72,7 +72,6 @@ const MovieForm = () => {
                 poster: poster
             }
 
-            console.log("movie form: ", newMovie)
             createMovie(newMovie)
         }
 
@@ -99,8 +98,7 @@ const MovieForm = () => {
             validate = false
             message = message + "you must indicate a duration greater than 1min. "
         }
-        console.log("validate form function ", validate)
-        console.log("validate form function ", isValidMessage)
+    
 
         setIsValidMessage(message)
         setIsValidForm(validate)

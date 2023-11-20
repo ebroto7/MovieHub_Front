@@ -1,8 +1,7 @@
 import { FC, createContext, useReducer, PropsWithChildren, useEffect, useContext, useState } from "react";
 import { MovieType } from "../../types/movie.interface";
-import axios, { AxiosHeaderValue, AxiosRequestConfig } from "axios";
+import axios from "axios";
 import { useUserContext } from "../userContext/UserContext";
-import { useParams } from "react-router-dom";
 import { useAuth0 } from '@auth0/auth0-react'
 
 const moviesUrl = `${import.meta.env.VITE_API_BASE_URL}movie/`
@@ -54,8 +53,6 @@ export const movieReducer = (movieList: MovieType[], action: Action) => {
         }
         case Actions.CreateMovie: {
             const newMovie = action.payload.movie
-            console.log("movie reducer create movie", newMovie, ...movieList)
-
             return [...movieList, newMovie]
         }
         case Actions.UpdateMovie: {
@@ -112,17 +109,16 @@ const init = () => {
 const MovieProvider: FC<PropsWithChildren> = ({ children }) => {
     const {isLoading} = useAuth0()
     const { APIuserLogedId, isAuth, userLoged, getLogedUser  } = useUserContext()
-    console.log("data",APIuserLogedId)
 
     const [allMovies, dispatch] = useReducer(movieReducer, {}, init);
     const [userMovies, setUserMovies] = useState<MovieType[]>([])
-     const [ID, setID] = useState<string | number>(userLoged.id)
+    //  const [ID, setID] = useState<string | number>(userLoged.id)
      const [loading, setLoading] = useState(true);
 
 
     useEffect(() => {
         getAllMovies()
-         setID(userLoged.id)
+        //  setID(userLoged.id)
         getAllMoviesByUserId(APIuserLogedId)
     }, [ isAuth, userLoged, isLoading])
 
@@ -143,8 +139,6 @@ const MovieProvider: FC<PropsWithChildren> = ({ children }) => {
         try {
             const response = await axios.get(moviesUrl)
             const movies: MovieType[] = response.data
-
-            console.log("fetchAllmovies", movies)
 
             dispatch({
                 type: Actions.GetAllMovies,
@@ -209,11 +203,12 @@ const MovieProvider: FC<PropsWithChildren> = ({ children }) => {
     }
     const getAllMoviesByUserId = async (userId: string | number) => {
         try {
-            const url = `${moviesUrl}user/${7}`
-            console.log("data url ", url)
+            // const url = `${moviesUrl}user/`+userId
+            const url = `${moviesUrl}user/`+7
+            // console.log("data url ", url)
             const response = await fetch(url);
             const data = await response.json();
-            console.log("Data", data);
+            // console.log("Data", data);
             setUserMovies(data)
             return data;
         } catch (error) {

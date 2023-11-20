@@ -9,8 +9,6 @@ const PrivateRoutes: FC<PropsWithChildren> = ({ children }) => {
 
   if (!isAuthenticated) return <div>Is not Authenticated </div>
   if (isLoading) return <div>Loading...</div>
-  console.log(isAuthenticated)
-
   return isAuthenticated ? children : <Navigate to={USER} />
 }
 

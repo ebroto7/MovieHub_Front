@@ -28,7 +28,6 @@ const APIGenreProvider: FC<PropsWithChildren> = ({ children }) => {
                 const response = await axios.get(genreUrl);
                 setApiGenres(response.data);
 
-                console.log("API getAllGenres ", response.data)
                 setApiError(false)
 
             } catch (error) {

@@ -65,7 +65,6 @@ const DetailPage = () => {
         }
 
     }
-    console.log("movie detail form: ", comment)
 
     const validateForm = () => {
 

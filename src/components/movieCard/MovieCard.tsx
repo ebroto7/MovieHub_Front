@@ -14,10 +14,8 @@ const MovieCard: FC<MovieType> = (movie) => {
   const Navigate = useNavigate()
 
   function handleClick() {
-    console.log("hello world from movie card click")
     Navigate(`/movie/${movie.id}`)
   }
-  console.log("moviecard", movie)
   return (
     <Card onClick={handleClick} sx={{ maxWidth: 300, minWidth: 200 }}>
       <CardActionArea>

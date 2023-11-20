@@ -9,7 +9,6 @@ import { MovieType } from '../../types/movie.interface';
 const AllMoviesGrid: FC<MovieType[]> = (movieList) => {
 
   const movies: MovieType[] | undefined = movieList
-  console.log("user movigrid ", movieList, movies)
   if (movies === undefined) return <p>Loading</p>
   return (
     <>
