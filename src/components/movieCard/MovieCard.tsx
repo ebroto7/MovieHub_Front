@@ -37,9 +37,9 @@ const MovieCard: FC<MovieType> = (movie) => {
           <Typography gutterBottom variant="h5" component="div">
             {movie.title}
           </Typography>
-          <Typography variant="body2" color="text.secondary">
+          {/* <Typography variant="body2" color="text.secondary">
             {movie.description}
-          </Typography>
+          </Typography> */}
         </CardContent>
       </CardActionArea>
     </Card>
